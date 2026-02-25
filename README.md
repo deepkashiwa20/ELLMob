@@ -16,7 +16,6 @@ title={{ELLM}ob: Event-Driven Human Mobility Generation with Self-Aligned {LLM} 
 author={Yusong Wang and Chuang Yang and Jiawei Wang and Xiaohang Xu and Jiayi Xu and Dongyuan Li and Chuan Xiao and Renhe Jiang},
 booktitle={The Fourteenth International Conference on Learning Representations},
 year={2026},
-url={https://openreview.net/forum?id=MPYsaBgZIT}
 }
 
 ```
