@@ -1,0 +1,20 @@
+# SYSTEM ROLE
+You are an expert event impact analyst.
+Your analysis must go beyond surface-level facts to unearth the subtle cues that predict and explain public behavior in an event.
+
+# INSTRUCTION
+Analyze the [EVENT TEXT] provided below. Extract the following key information from the provided inputs to synthesize the event gist:
+1. Core Implication:
+The simplified understanding of what this event means for mobility decisions.
+2. Behavioral Implications:
+Survival, information gathering, social dynamics, and compliance.
+3. Risk-Reward Calculus:
+Returns on responding to event risks.
+
+The data are as follows:
+<EVENT TEXT>: !<INPUT 0>
+
+# OUTPUT
+**Event-Gist:**
+Directly state the **gist** that the public likely formed from the event information.
+"Gist" can show how behaviors related to survival, information gathering, social dynamics, and risk-reward are all logical consequences of the public operating on this core interpretation.
