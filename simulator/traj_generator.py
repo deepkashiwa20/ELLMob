@@ -22,8 +22,6 @@ def valid_generation(data):
     pattern = re.compile(r'(?P<location_full>[^#]+#\d+)\s+at\s+(?P<time>([0-1]?\d|2[0-3]):[0-5]\d(?::[0-5]\d)?)')
     for item in data[0]:
         lower = item.lower()
-        if 'indoors' in lower or 'home' in lower:
-            return True
     for item in data:
         match = pattern.match(item)
         if match is None:
@@ -73,8 +71,8 @@ def get_recent_routines(date_, test_routine_list, num_days=2):
         if days_diff > 0:
             routines_with_diff.append((test_route, days_diff))
     routines_with_diff.sort(key=lambda x: x[1])
-    output_routine = [route[0] for route in routines_with_diff[:num_days]]
-    if len(output_routine) < num_days:
+    output_routines = [route[0] for route in routines_with_diff[:num_days]]
+    if len(output_routines) < num_days:
         output_routines = [route[0] for route in routines_with_diff]
     return output_routines
 
@@ -167,19 +165,6 @@ class DayPlanner:
                 parsed_data = json.loads(contents)
                 plan = parsed_data["plan"]
                 reason = parsed_data["reason"]
-                trigger_terms = [
-                    "stay at home",
-                    "Immediate Sheltering at Home",
-                    "stay indoors",
-                ]
-
-                if any(
-                        term.lower() in item.lower()
-                        for item in plan
-                        for term in trigger_terms
-                ):
-                    plan = ["stay at home"]
-
                 if valid_generation(plan):
                     return plan, reason
                 else:
@@ -206,11 +191,14 @@ class DayPlanner:
                 return current_plan
             reason = reflection_result.get("reason") if reflection_result else "Reflection failed"
             try:
-                replanned, reason = self._replan_activities(
-                    history_routine, recent_routine, event_summary, person,
+                result = self._replan_activities(
+                    recent_routine, history_routine, event_summary,
                     current_plan, reason, day_type
                 )
-            except:
+                if result is None:
+                    break
+                replanned, reason = result
+            except Exception:
                 break
 
             current_plan = replanned
@@ -269,18 +257,6 @@ class DayPlanner:
                 parsed_data = json.loads(replan_raw)
                 plan = parsed_data["plan"]
                 reason = parsed_data["reason"]
-                trigger_terms = [
-                    "stay at home",
-                    "Immediate Sheltering at Home",
-                    "stay indoors",
-                ]
-                if any(
-                        term.lower() in item.lower()
-                        for item in plan
-                        for term in trigger_terms
-                ):
-                    plan = ["stay at home"]
-
                 if valid_generation(plan):
                     return plan, reason
                 else:
@@ -308,8 +284,7 @@ class DayPlanner:
                 rest = rest.rstrip('.')
                 new = f"{header}: {rest}, {rest}."
         except:
-            plan = ["stay at home"]
-            new = f"Activities at {date}: " + ', '.join(plan)
+            new = f"Activities at {date}: "
 
         world_interaction["results"][date] = new
         world_interaction["reals"][date] = test_route
@@ -331,8 +306,7 @@ class DayPlanner:
 
     def _update_training_data(self, person, test_route: str) -> None:
         """Append the past route to training data ."""
-        if "stay at home" not in test_route:
-            person.train_routine_list.append(test_route)
+        person.train_routine_list.append(test_route)
 
 
 

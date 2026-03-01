@@ -4,6 +4,23 @@ import pickle
 import csv
 from datetime import datetime, date, timedelta
 
+def ensure_dates(activities: list, dates: list) -> list:
+    existing = [
+        m.group(1)
+        for entry in activities
+        for m in [re.search(r'Activities at (\d{4}-\d{2}-\d{2})', entry)]
+        if m
+    ]
+    updated = activities.copy()
+    for d in dates:
+        if d not in existing:
+            updated.append(f'Activities at {d}: ')
+    def extract_date(entry: str) -> str:
+        m = re.search(r'Activities at (\d{4}-\d{2}-\d{2})', entry)
+        return m.group(1) if m else ''
+    updated.sort(key=extract_date)
+    return updated
+
 def filter_train(item_list):
     """Return activity entries whose date falls from 2020 02 07 through 2020 04 06 inclusive."""
     filtered = []
@@ -32,24 +49,6 @@ def filter_test(item_list):
             filtered.append(item)
     return filtered
 
-def ensure_dates(activities: List[str], dates: List[str]) -> List[str]:
-    """Ensure all target dates appear in activities by adding default stay at home entries and then return the list sorted by date."""
-    existing = [
-        match.group(1)
-        for entry in activities
-        for match in [re.search(r'Activities at (\d{4}-\d{2}-\d{2})', entry)]
-        if match
-    ]
-    updated = activities.copy()
-    for date in dates:
-        if date not in existing:
-            updated.append(f'Activities at {date}: stay at home')
-    def extract_date(entry: str) -> str:
-        match = re.search(r'Activities at (\d{4}-\d{2}-\d{2})', entry)
-        return match.group(1) if match else ''
-    updated.sort(key=extract_date)
-    return updated
-
 if __name__ == "__main__":
     planner = DayPlanner()
     routinelist = open("trajectory_data.pkl", 'rb')
@@ -62,7 +61,6 @@ if __name__ == "__main__":
     trajectories = {}
     start_date = date(2020, 4, 7)
     num_days = 7
-
     days_to_check = [(start_date + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(num_days)]
     for key in user_list:
         P = Person(key)
