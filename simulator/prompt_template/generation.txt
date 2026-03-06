@@ -34,16 +34,21 @@ Response STRICTLY to the prompt above in JSON in the *following* format:
 {"plan": [<Location> at <Time>, <Location> at <Time>,...],
 "reason":...}
 
-Here is an example JUST for FORMAT reference, DO NOT COPY IT !
-EXAMPLE 1
+
+Here are examples JUST for FORMAT reference, DO NOT COPY IT !
+You must extract location names and IDs strictly from the <LONG-TERM> and <SHORT-TERM> input data. Generating fabricated locations or copying the dummy locations from the examples below is strictly prohibited.
+
+EXAMPLE 1: The plan array MUST ONLY contain valid physical locations. Activities or virtual events are PROHIBITED.
 {
 "plan": [
-"Platform#6 at 08:00:00",
-"Convenience Store#236 at 19:50:00"
+"Platform #6 at 09:00:00",
+"Japanese Restaurant #606 at 10:00:00"
 ],
-"reason": "The prediction is based on the user's powerful weekday routine, which serves as the default plan.
-The event, a 'Heavy Rain and Wind Advisory', was assessed as a modifier, not an override.
-Following the 'Human Robustness' principle, the model evaluated if the event triggered a 'Veto Condition'.
-Since the event confirms that transportation is still operational, the user's routine is not physically impossible.
-Therefore, the default routine plan proceeds, as the user's strong habit of commuting is predicted to be more influential than a non-mandatory advisory".
+"reason": "The prediction follows the user weekday routine. The event confirms that transportation is operational. The default routine plan proceeds. The model only outputs physical locations. Time spent at home is implied."
+}
+
+EXAMPLE 2: Only when the disaster is actively occurring at this exact moment making movement physically impossible.
+{
+"plan": [],
+"reason": "The event context states that floodwaters have already submerged the streets. The user is physically trapped inside their residence. External movement is physically impossible at this exact hour. The user remains indoors for the entire day. The plan array is empty to reflect this physical blockage. Mere advisories or approaching severe storms do not trigger an empty array."
 }

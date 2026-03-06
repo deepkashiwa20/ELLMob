@@ -23,6 +23,8 @@ def valid_generation(data):
     for item in data[0]:
         lower = item.lower()
     for item in data:
+        if "Home at" in item:
+            continue
         match = pattern.match(item)
         if match is None:
             return False
@@ -44,7 +46,7 @@ def check_workday_or_weekend(date_str: str) -> str:
     else:
         return "Weekend"
 
-def get_long_routines(date_, test_routine_list, num_days=2):
+def get_long_routines(date_, test_routine_list, num_days=3):
     current_date = datetime.strptime(date_, "%Y-%m-%d")
     routines_with_diff = []
     for test_route in test_routine_list:
@@ -59,7 +61,7 @@ def get_long_routines(date_, test_routine_list, num_days=2):
     output_routines = [route[0] for route in routines_with_diff[num_days:]]
     return output_routines
 
-def get_recent_routines(date_, test_routine_list, num_days=2):
+def get_recent_routines(date_, test_routine_list, num_days=3):
     current_date = datetime.strptime(date_, "%Y-%m-%d")
     routines_with_diff = []
     for test_route in test_routine_list:
@@ -112,6 +114,7 @@ class DayPlanner:
                         recent_routine, long_routine, event_summary, day_type
                     )
                 except:
+                    self._update_training_data(person, test_route)
                     self._use_fallback_plan(person, date, test_route, world_interaction)
                     continue
                 validated_plan = self._validate_and_replan(
@@ -178,30 +181,29 @@ class DayPlanner:
 
         return None
 
-
     def _validate_and_replan(
             self, initial_plan: List[str], event_summary: str, person,
-            recent_routine: str, history_routine: str, day_type:str, reason:str, event_gist, pattern_gist_contents
+            recent_routine: str, history_routine: str, day_type: str, reason: str, event_gist, pattern_gist_contents
     ) -> Optional[List[str]]:
         """Run reflection then replan if needed."""
         current_plan = initial_plan
+        replan_reason = reason
         for attempt in range(self.config.MAX_REFLECTION_TRY):
-            reflection_result = self._run_reflection_validation(current_plan, event_gist, pattern_gist_contents, reason)
+            reflection_result = self._run_reflection_validation(current_plan, event_gist, pattern_gist_contents,
+                                                                replan_reason)
             if reflection_result and self._is_reflection_successful(reflection_result):
                 return current_plan
-            reason = reflection_result.get("reason") if reflection_result else "Reflection failed"
+            critique = reflection_result.get("reason") if reflection_result else "Reflection failed"
             try:
                 result = self._replan_activities(
                     recent_routine, history_routine, event_summary,
-                    current_plan, reason, day_type
+                    current_plan, critique, day_type
                 )
                 if result is None:
                     break
-                replanned, reason = result
+                current_plan, replan_reason = result
             except Exception:
                 break
-
-            current_plan = replanned
 
         return None
 
@@ -293,16 +295,20 @@ class DayPlanner:
         print(new)
         print(test_route)
 
-    def _save_successful_plan(
-            self, plan: List[str], date: str, test_route: str,
-            world_interaction: Dict[str, Dict[str, str]]
-    ) -> None:
+    def _save_successful_plan(self, plan, date, test_route, world_interaction):
         print("Plan:", plan)
         print("True:", test_route)
         print("Date:", date)
         world_interaction["reals"][date] = test_route
-        world_interaction["results"][date] = f"Activities at {date}: " + ', '.join(plan)
+
+        clean_plan = [item for item in plan if "Home at" not in item]
+
+        if len(clean_plan) == 0:
+            world_interaction["results"][date] = f"Activities at {date}: "
+        else:
+            world_interaction["results"][date] = f"Activities at {date}: " + ', '.join(clean_plan)
         print("----------------------------------")
+
 
     def _update_training_data(self, person, test_route: str) -> None:
         """Append the past route to training data ."""
