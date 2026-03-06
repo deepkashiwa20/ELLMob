@@ -11,7 +11,10 @@ You can use the raw data for your own research, and you can also use the preproc
 python preprocess.py
 ```
 
-# Event Injection
+# Event
+In traj_generator.py to switch event type:
+
+event_context = "Put event context here."
 
 
 ## Citation
