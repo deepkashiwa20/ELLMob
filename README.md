@@ -16,6 +16,11 @@ In traj_generator.py to switch event type:
 
 event_context = "Put event context here."
 
+# API
+
+Put your API configuration here at gpt_structure.py.
+
+client = AzureOpenAI(azure_endpoint="", api_key="", api_version="")
 
 # Inference
 
