@@ -17,6 +17,13 @@ In traj_generator.py to switch event type:
 event_context = "Put event context here."
 
 
+# Inference
+
+```
+python run.py
+```
+
+
 ## Citation
 If this repository is useful for you, please cite as:
 ```
