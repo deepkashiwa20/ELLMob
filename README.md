@@ -5,7 +5,7 @@ This is the official implementation for the paper "[ICLR'26] ELLMob: Event-Drive
 ![image](structure.png)
 
 # Dataset
-You can use the raw data for your own research, and you can also use the preprocessed files to continue research on event-driven human mobility.
+You can use the [raw data](https://github.com/deepkashiwa20/ELLMob/tree/main/data) for your own research, and you can also use the [preprocessed files](https://github.com/deepkashiwa20/ELLMob/blob/main/data/preprocess.py) to continue research on event-driven human mobility.
 
 ```
 python preprocess.py
@@ -18,7 +18,7 @@ event_context = "Put event context here."
 
 # API
 
-Put your API configuration here at gpt_structure.py.
+Put your API configuration at gpt_structure.py.
 
 client = AzureOpenAI(azure_endpoint="", api_key="", api_version="")
 
