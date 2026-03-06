@@ -23,6 +23,11 @@ event_context = "Put event context here."
 python run.py
 ```
 
+# evaluation
+
+```
+python evaluation.py
+```
 
 ## Citation
 If this repository is useful for you, please cite as:
