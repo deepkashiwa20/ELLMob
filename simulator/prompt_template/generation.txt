@@ -38,7 +38,7 @@ Response STRICTLY to the prompt above in JSON in the *following* format:
 Here are examples JUST for FORMAT reference, DO NOT COPY IT !
 You must extract location names and IDs strictly from the <LONG-TERM> and <SHORT-TERM> input data. Generating fabricated locations or copying the dummy locations from the examples below is strictly prohibited.
 
-EXAMPLE 1: The plan array MUST ONLY contain valid physical locations. Activities or virtual events are PROHIBITED.
+EXAMPLE 1: The plan array MUST ONLY contain valid physical locations. Virtual events are PROHIBITED.
 {
 "plan": [
 "Platform #6 at 09:00:00",
