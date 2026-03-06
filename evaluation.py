@@ -414,5 +414,5 @@ if __name__ == '__main__':
     print(f"SI : \t {duration_jsd:.4f}")
     print(f"SD : \t {distance_step_jsd:.4f}")
     print(f"CD : \t {category_jsd:.4f}")
-    print(f"SDG : \t {sg_act_jsd:.4f}")
+    print(f"SGD : \t {sg_act_jsd:.4f}")
     print("**************************************")
