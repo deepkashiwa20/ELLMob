@@ -11,6 +11,13 @@ You can use the raw data for your own research, and you can also use the preproc
 python preprocess.py
 ```
 
+# Inference
+
+```
+python run.py
+```
+
+
 # Event
 In traj_generator.py to switch event type:
 
