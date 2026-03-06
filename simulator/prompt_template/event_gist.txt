@@ -4,7 +4,7 @@ Your analysis must go beyond surface-level facts to unearth the subtle cues that
 
 # INSTRUCTION
 Analyze the [EVENT TEXT] provided below. Extract the following key information from the provided inputs to synthesize the event gist:
-1. Core Implication:
+1. Primary Intent:
 The simplified understanding of what this event means for mobility decisions.
 2. Behavioral Implications:
 Survival, information gathering, social dynamics, and compliance.
