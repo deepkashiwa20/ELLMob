@@ -35,7 +35,4 @@ python evaluation.py
 ```
 
 ## Citation
-If this repository is useful for you, please cite as:
-```
-
-```
+If you find this repository useful for your research, please consider citing our paper and giving the repository a star.
