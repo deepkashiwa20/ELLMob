@@ -54,10 +54,6 @@ if __name__ == "__main__":
     routinelist = open("data/activities_list_coordinate_covid", 'rb')
     routine = pickle.load(routinelist)
     user_list = [f'user_{i}' for i in range(1100)]
-
-    with open(file_path, mode='r') as file:
-        reader = csv.reader(file)
-        user_list = [row[0] for row in reader]
     trajectories = {}
     start_date = date(2020, 4, 7)
     num_days = 7
