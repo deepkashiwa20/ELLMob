@@ -29,7 +29,6 @@ def generate_prompt(curr_input, prompt_lib_file):
 
 def execute_prompt(prompt, objective, history=None, temperature=0.1):
     """Send the prompt to Azure OpenAI chat API and simple retry then return the reply text."""
-    print(f"==============={objective}=========================")
     response = None
     while response is None:
         try:
