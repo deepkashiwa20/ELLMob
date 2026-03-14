@@ -61,7 +61,6 @@ if __name__ == "__main__":
     for key in user_list:
         P = Person(key)
         print(key)
-        print("current:" + str(len(trajectories)))
         P.test_routine_list = ensure_dates(filter_test(routine[key]), days_to_check)
         P.train_routine_list = filter_train(routine[key])
         trajectories[str(P.name)] = planner.plan_new_day(P)
