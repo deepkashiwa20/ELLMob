@@ -51,9 +51,9 @@ def filter_test(item_list):
 
 if __name__ == "__main__":
     planner = DayPlanner()
-    routinelist = open("trajectory_data.pkl", 'rb')
+    routinelist = open("data/activities_list_coordinate_covid", 'rb')
     routine = pickle.load(routinelist)
-    file_path = 'user_list.csv'
+    user_list = [f'user_{i}' for i in range(1100)]
 
     with open(file_path, mode='r') as file:
         reader = csv.reader(file)
