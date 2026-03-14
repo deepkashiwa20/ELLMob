@@ -14,7 +14,7 @@ def load_locations(csv_filename):
                 valid_locations.add(loc)
     return valid_locations
 
-valid_locations = load_locations("subcategories.csv")
+valid_locations = load_locations("data/subcategories.csv")
 root_directory = "./simulator/"
 
 def valid_generation(data):
@@ -107,7 +107,7 @@ class DayPlanner:
                 event_summary, event_gist, day_type = self._get_event_summary(date)
                 pattern_data_input = [person.train_routine_list, recent_routine]
                 prompt_pattern_gist = generate_prompt(pattern_data_input, self.config.PATTERN_GIST_TEMPLATE)
-                pattern_gist_contents = execute_prompt(prompt_pattern_gist, objective=f"INFER_PATTERN_GIST")
+                pattern_gist_contents = execute_prompt(prompt_pattern_gist, objective=f"")
 
                 try:
                     plan_result, reason = self._generate_initial_plan(
@@ -144,9 +144,9 @@ class DayPlanner:
         event_context = "Put event context here."
         curr_input = [event_context]
         prompt_event_schema = generate_prompt(curr_input, self.config.EVENT_SCHEMA_TEMPLATE)
-        event_schema_contents = execute_prompt(prompt_event_schema, objective=f"INFER_EVENT_SCHEMA")
+        event_schema_contents = execute_prompt(prompt_event_schema, objective=f"")
         prompt_event_gist = generate_prompt(curr_input, self.config.EVENT_GIST_TEMPLATE)
-        event_gist_contents = execute_prompt(prompt_event_gist, objective=f"INFER_EVENT_GIST")
+        event_gist_contents = execute_prompt(prompt_event_gist, objective=f"")
         day_type = f"Today is {check_workday_or_weekend(date)}."
         return event_schema_contents, event_gist_contents, day_type
 
@@ -159,10 +159,8 @@ class DayPlanner:
         prompt = generate_prompt(curr_input, self.config.GENERATION_TEMPLATE)
 
         for trial in range(self.config.MAX_TRIAL):
-            contents = execute_prompt(prompt, objective=f"INFER_RE_{trial}")
-            print(contents)
+            contents = execute_prompt(prompt, objective=f"")
             if not contents:
-                print("No content found. Regenerating prompt and trying again...")
                 continue
             try:
                 parsed_data = json.loads(contents)
@@ -170,13 +168,7 @@ class DayPlanner:
                 reason = parsed_data["reason"]
                 if valid_generation(plan):
                     return plan, reason
-                else:
-                    print(contents)
-                    print("Invalid format and trying again initial generation...")
-
             except json.JSONDecodeError:
-                print("Invalid JSON format and trying again initial generation...")
-                print(contents)
                 continue
 
         return None
@@ -212,10 +204,10 @@ class DayPlanner:
         try:
             curr_action_input = [plan, reason]
             prompt_action_gist = generate_prompt(curr_action_input, self.config.ACTION_GIST_TEMPLATE)
-            action_gist_contents = execute_prompt(prompt_action_gist, objective=f"INFER_ACTION_GIST")
+            action_gist_contents = execute_prompt(prompt_action_gist, objective=f"")
             reflection_inputs = [event_gist_content, pattern_gist_contents, action_gist_contents]
             reflection_prompt = generate_prompt(reflection_inputs, self.config.REFLECTION_TEMPLATE)
-            reflection_raw = execute_prompt(reflection_prompt, objective="REFLECTION")
+            reflection_raw = execute_prompt(reflection_prompt, objective="")
             s = reflection_raw.strip()
             s = re.sub(r"```json", "", s)
             s = s.replace("```", "")
@@ -251,7 +243,7 @@ class DayPlanner:
 
 
         for trial in range(self.config.REPLAN_TRIAL):
-            replan_raw = execute_prompt(replan_prompt, objective="REGENERATION")
+            replan_raw = execute_prompt(replan_prompt, objective="")
             if not replan_raw:
                 continue
 
@@ -261,13 +253,8 @@ class DayPlanner:
                 reason = parsed_data["reason"]
                 if valid_generation(plan):
                     return plan, reason
-                else:
-                    print(replan_raw)
-                    print("Invalid format and trying again...")
 
             except json.JSONDecodeError:
-                print("Invalid JSON format and trying again...")
-                print(replan_raw)
                 continue
 
         return None
@@ -290,15 +277,8 @@ class DayPlanner:
 
         world_interaction["results"][date] = new
         world_interaction["reals"][date] = test_route
-
-        print("---------USE OLD------------")
-        print(new)
-        print(test_route)
-
+        
     def _save_successful_plan(self, plan, date, test_route, world_interaction):
-        print("Plan:", plan)
-        print("True:", test_route)
-        print("Date:", date)
         world_interaction["reals"][date] = test_route
 
         clean_plan = [item for item in plan if "Home at" not in item]
@@ -307,8 +287,6 @@ class DayPlanner:
             world_interaction["results"][date] = f"Activities at {date}: "
         else:
             world_interaction["results"][date] = f"Activities at {date}: " + ', '.join(clean_plan)
-        print("----------------------------------")
-
 
     def _update_training_data(self, person, test_route: str) -> None:
         """Append the past route to training data ."""
