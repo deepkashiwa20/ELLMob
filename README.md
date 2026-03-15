@@ -40,7 +40,7 @@ python evaluation.py
 ```
 
 ## Citation
-If you find this repository useful for your research, please consider citing our paper and giving the repository a star.
+If you find our datasets or codes useful, please kindly cite our paper and give a star.
 
 ```bibtex
 @inproceedings{wang2026ellmob,
