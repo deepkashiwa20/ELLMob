@@ -1,8 +1,9 @@
 # ELLMob
 This is the official implementation for the paper "[ICLR'26] ELLMob: Event-Driven Human Mobility Generation with Self-Aligned LLM Framework".
 
-# ArXiv and [OpenReview](https://openreview.net/forum?id=MPYsaBgZIT)
+# ArXiv 
 [![arXiv](https://img.shields.io/badge/arXiv-2401.12345-b31b1b.svg)](https://arxiv.org/abs/2603.07946)
+[OpenReview Link](https://openreview.net/forum?id=MPYsaBgZIT)
 
 # Structure of ELLMob
 ![image](structure.png)
