@@ -1,6 +1,9 @@
 # ELLMob
 This is the official implementation for the paper "[ICLR'26] ELLMob: Event-Driven Human Mobility Generation with Self-Aligned LLM Framework".
 
+# ArXiv and [OpenReview](https://openreview.net/forum?id=MPYsaBgZIT)
+[![arXiv](https://img.shields.io/badge/arXiv-2401.12345-b31b1b.svg)](https://arxiv.org/abs/2603.07946)
+
 # Structure of ELLMob
 ![image](structure.png)
 
@@ -36,3 +39,21 @@ python evaluation.py
 
 ## Citation
 If you find this repository useful for your research, please consider citing our paper and giving the repository a star.
+
+```bibtex
+@inproceedings{wang2026ellmob,
+  title     = {ELLMob: Event-Driven Human Mobility Generation with Self-Aligned LLM Framework},
+  author    = {Yusong Wang, Chuang Yang, Jiawei Wang, Xiaohang Xu, Jiayi Xu, Dongyuan Li, Chuan Xiao, Renhe Jiang},
+  booktitle = {The Fourteenth International Conference on Learning Representations},
+  year      = {2026}
+}
+```
+
+```bibtex
+@article{wang2026ellmob,
+  title={ELLMob: Event-Driven Human Mobility Generation with Self-Aligned LLM Framework},
+  author={Yusong Wang, Chuang Yang, Jiawei Wang, Xiaohang Xu, Jiayi Xu, Dongyuan Li, Chuan Xiao, Renhe Jiang},
+  journal={arXiv preprint arXiv:2603.07946},
+  year={2026}
+}
+```
